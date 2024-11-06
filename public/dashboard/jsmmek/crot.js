@@ -85,7 +85,7 @@ function displayMenuItems() {
        <a class="menu-item" href="https://simantap.unper.ac.id/cetak/${userNIM}/205/kartu-uts.pdf?print=pdf">Cetak Kartu UTS</a>
       </button>
       <button class="btn btn-outline flex-1 ml-2 color-buttom">
-        <span class="menu-item"><a href="https://simantap.unper.ac.id/cetak/${userNIM}/205/kartu-uas.pdf?print=pdf"></a>Cetak Kartu UAS</span>
+        <a class="menu-item" href="https://simantap.unper.ac.id/cetak/${userNIM}/205/kartu-uas.pdf?print=pdf">Cetak Kartu UAS</a>
       </button>
     </div>
     <button class="btn btn-outline mt-4 color-buttom" onclick="cetakTranskrip()">
