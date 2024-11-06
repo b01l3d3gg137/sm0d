@@ -82,7 +82,7 @@ function displayMenuItems() {
   menuItemsDiv.innerHTML = `
     <div class="flex justify-between w-full max-w-xs">
       <button class="btn btn-outline flex-1 mr-2 color-buttom">
-        <span class="menu-item"><a href="https://simantap.unper.ac.id/cetak/${userNIM}/205/kartu-uts.pdf?print=pdf"></a>Cetak Kartu UTS</span>
+       <a class="menu-item" href="https://simantap.unper.ac.id/cetak/${userNIM}/205/kartu-uts.pdf?print=pdf">Cetak Kartu UTS</a>
       </button>
       <button class="btn btn-outline flex-1 ml-2 color-buttom">
         <span class="menu-item"><a href="https://simantap.unper.ac.id/cetak/${userNIM}/205/kartu-uas.pdf?print=pdf"></a>Cetak Kartu UAS</span>
