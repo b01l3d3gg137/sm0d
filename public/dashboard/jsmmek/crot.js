@@ -10,13 +10,14 @@ window.onload = function () {
   }
 
   const data = JSON.parse(userInfo);
-  userNIM = data.data.user_login.username;
+  userNIM = data.data.user_login.username; // Simpan NIM user
   displayImage();
   displayUserInfo(data);
   displayMenuItems();
   updateUserInitial(data.mhs.nama);
 };
 
+// Array berisi kutipan-kutipan
 const quotes = [
 "Jangan cuma scroll TikTok, scroll juga buku. Masa depanmu bukan di FYP, tapi di graduation stage.",
 "(Jangan hanya berselancar di TikTok, tapi juga baca buku. Masa depanmu bukan di halaman FYP, melainkan di panggung kelulusan.)",
@@ -43,17 +44,20 @@ const quotes = [
 "Masa depanmu ada di tanganmu sendiri. Jadi, raihlah dengan segenap kemampuanmu.",
 ];
 
+// Fungsi untuk mendapatkan kutipan secara acak
 function getRandomQuote() {
   const randomIndex = Math.floor(Math.random() * quotes.length);
   return quotes[randomIndex];
 }      
 
+      // Fungsi untuk memperbarui inisial pengguna
 function updateUserInitial(fullName) {
   const userInitialDiv = document.getElementById("userInitial");
-  const initial = fullName.charAt(0).toUpperCase(); 
-  userInitialDiv.querySelector('span').textContent = initial;
+  const initial = fullName.charAt(0).toUpperCase(); // Ambil huruf pertama dan ubah jadi huruf kapital
+  userInitialDiv.querySelector('span').textContent = initial; // Ganti teks di dalam span
 }
 
+  // Menampilkan kutipan acak di elemen dengan ID quote-display
  document.getElementById('quote-display').textContent = getRandomQuote();
 
 function displayImage() {
@@ -77,11 +81,11 @@ function displayMenuItems() {
   const menuItemsDiv = document.getElementById("menuItems");
   menuItemsDiv.innerHTML = `
     <div class="flex justify-between w-full max-w-xs">
-      <button class="btn btn-outline flex-1 mr-2 color-buttom" onclick="checkAndRedirect('uts')">
-        <span class="menu-item">Cetak Kartu UTS</span>
+      <button class="btn btn-outline flex-1 mr-2 color-buttom">
+        <span class="menu-item"><a href="https://simantap.unper.ac.id/cetak/${userNIM}/205/kartu-uts.pdf?print=pdf"></a>Cetak Kartu UTS</span>
       </button>
-      <button class="btn btn-outline flex-1 ml-2 color-buttom" onclick="checkAndRedirect('uas')">
-        <span class="menu-item">Cetak Kartu UAS</span>
+      <button class="btn btn-outline flex-1 ml-2 color-buttom">
+        <span class="menu-item"><a href="https://simantap.unper.ac.id/cetak/${userNIM}/205/kartu-uas.pdf?print=pdf"></a>Cetak Kartu UAS</span>
       </button>
     </div>
     <button class="btn btn-outline mt-4 color-buttom" onclick="cetakTranskrip()">
@@ -92,22 +96,25 @@ function displayMenuItems() {
 
 
 function checkAndRedirect(type) {
-  const nim = userNIM; 
+  const nim = userNIM; // Pastikan nim diambil dari context yang benar
   const url = `https://voip.sbp.net.id:3000/proxy/cek-pdf?nim=${nim}&type=${type}`;
 
-
+  // Cek status file melalui server proxy
   fetch(url, {
       method: 'GET',
-      credentials: 'include' 
+      credentials: 'include'  // Mengirimkan cookies, termasuk cookies untuk sesi pengguna
   })
   .then(response => {
       if (response.status === 500) {
+          // Jika statusnya 500, berarti ada masalah, kemungkinan karena belum login
           showLoginWarning();
       } else if (response.ok) {
+          // Jika statusnya 200 OK, lanjutkan untuk mengunduh PDF
           const downloadUrl = `https://simantap.unper.ac.id/cetak/${nim}/205/kartu-${type}.pdf?print=pdf`;
           // const downloadUrl = `http://localhost:3000/proxy/download-pdf?nim=${nim}&type=${type}`;
           window.open(downloadUrl, '_blank');
       } else {
+          // Jika status lainnya selain 500 atau 200, anggap ada kesalahan
           throw new Error('Terjadi kesalahan saat mengakses URL');
       }
   })
@@ -122,7 +129,7 @@ function checkAndRedirect(type) {
 
 function showLoginWarning() {
   const modal = document.getElementById("my_modal_1");
-  modal.showModal();
+  modal.showModal();  // Menampilkan modal
 }
 
 
@@ -166,5 +173,7 @@ function logout() {
   window.location.href = "../index.html";
 }
 
+  // Mendapatkan elemen dengan ID current-year
 const yearElement = document.getElementById('current-year');
+// Mengupdate konten dengan tahun saat ini
  yearElement.textContent = new Date().getFullYear();
